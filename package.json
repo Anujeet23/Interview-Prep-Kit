@@ -12,7 +12,8 @@
     "dev": "node --watch server/src/index.js",
     "evaluate": "node server/scripts/evaluate.js",
     "fixtures": "node server/scripts/serve-fixtures.js",
-    "test": "node --test --test-concurrency=1 \"server/test/*.test.js\""
+    "test": "node --test --test-concurrency=1 \"server/test/*.test.js\"",
+    "demo:api": "node server/test/support/smokeServer.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
