@@ -65,8 +65,8 @@ export function cleanText(body) {
 }
 
 /** Retrieve and clean one page. Returns a page object or throws a FetchError. */
-export async function retrievePage(url, { fetcher }) {
-  const res = await fetcher.get(url);
+export async function retrievePage(url, { fetcher, hostDelayMs = 0 }) {
+  const res = await fetcher.get(url, { hostDelayMs });
   const isHtml = /html|xml/.test(res.contentType) || /^\s*</.test(res.body);
   const parsed = isHtml ? cleanHtml(res.body, res.url) : { title: '', description: '', siteName: '', headings: [], text: cleanText(res.body), links: [] };
   return { url: res.url, requestedUrl: String(url), truncated: res.truncated, ...parsed };

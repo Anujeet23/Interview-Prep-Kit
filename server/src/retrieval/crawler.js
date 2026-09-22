@@ -41,7 +41,7 @@ export async function crawlCompany(companyUrl, { fetcher, userAgent, maxPages = 
   onEvent({ type: 'fetch', url: base.href });
   let home;
   try {
-    home = await retrievePage(base.href, { fetcher });
+    home = await retrievePage(base.href, { fetcher, hostDelayMs: robots.crawlDelayMs });
   } catch (e) {
     result.failures.push({ url: base.href, code: e.code || 'FETCH_FAILED', reason: e.message, attempts: e.attempts });
     result.notes.push(`The company site could not be reached (${e.message}${e.attempts ? ` after ${e.attempts} attempts` : ''}).`);
@@ -78,7 +78,7 @@ export async function crawlCompany(companyUrl, { fetcher, userAgent, maxPages = 
     }
     onEvent({ type: 'fetch', url: next.url });
     try {
-      const page = await retrievePage(next.url, { fetcher });
+      const page = await retrievePage(next.url, { fetcher, hostDelayMs: robots.crawlDelayMs });
       if (!inScope(page.url, scope) || seen.has(canonical(page.url)) && canonical(page.url) !== key) {
         // Redirected outside the site or onto a page we already have.
         if (!inScope(page.url, scope)) result.failures.push({ url: next.url, code: 'OUT_OF_SCOPE', reason: `redirected to ${page.url}` });
