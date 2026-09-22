@@ -5,6 +5,7 @@ services:
     name: interview-prep-kit-api
     runtime: node
     plan: free
+    region: singapore
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /api/health
