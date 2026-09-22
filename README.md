@@ -2,6 +2,8 @@
 
 Paste a job description, give the company's website and say how many days you have. The app reads the posting, crawls the company site for what they do and how they hire, looks for public discussion of their interviews, and builds a kit: a company brief, a role breakdown, a categorised question bank, flashcards and a day-by-day schedule. Everything in the kit can be edited, reordered, pinned or regenerated section by section, and practised in the app.
 
+New to the codebase? Start with [LEARNING_GUIDE.md](LEARNING_GUIDE.md).
+
 **Live app:** `https://<your-app>.vercel.app` · **API:** `https://<your-api>.onrender.com/api/health`
 
 ---
