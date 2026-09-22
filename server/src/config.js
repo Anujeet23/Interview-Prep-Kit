@@ -28,7 +28,7 @@ export function getConfig() {
       maxWaitMsPerCall: num(process.env.LLM_MAX_WAIT_MS, 120_000),
       gemini: {
         apiKey: process.env.GEMINI_API_KEY || '',
-        model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+        model: process.env.GEMINI_MODEL || 'gemini-3.6-flash',
         rpm: num(process.env.GEMINI_RPM, 8),
         tpm: num(process.env.GEMINI_TPM, 200_000),
       },
