@@ -65,9 +65,12 @@ export async function buildCompanyBrief({ companyName, companyUrl, pages, crawl,
 
   const unknowns = [...out.unknowns];
   if (!hiring.found) unknowns.unshift('The interview process: the company does not publish it on its site.');
-  if (discussion?.status && discussion.status !== 'searched') {
-    unknowns.push(discussion.status === 'nothing_found' ? 'What past candidates say: no public discussion of their interviews turned up.' : 'Public discussion could not be searched this time.');
-  }
+  const DISCUSSION_NOTE = {
+    nothing_found: 'What past candidates say: no public discussion of their interviews turned up.',
+    unavailable: 'What past candidates say: public discussion sources could not be reached this time.',
+    skipped: 'What past candidates say: there was no company name to search for.',
+  };
+  if (DISCUSSION_NOTE[discussion?.status]) unknowns.push(DISCUSSION_NOTE[discussion.status]);
 
   return {
     summary,

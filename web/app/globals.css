@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/*
+  Design tokens. The idea: a study desk. Cool paper, navy ink, one teal for actions,
+  and a highlighter yellow used ONLY to mark must-have requirements, the same way you'd
+  mark a printed job ad. The flashcard is the one "loud" element: a ruled index card.
+*/
+@theme {
+  --color-paper: #f5f7fa;
+  --color-sheet: #ffffff;
+  --color-ink: #16203a;
+  --color-muted: #586178;
+  --color-rule: #d8dee8;
+  --color-action: #0d6b62;
+  --color-action-ink: #ffffff;
+  --color-highlight: #ffe57a;
+  --color-danger: #b42318;
+  --color-warn: #9a5b00;
+  --color-card: #fffdf6;
+  --color-card-rule: #c9dcef;
+  --color-card-margin: #e8a3a3;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-card: "Literata", Georgia, "Times New Roman", serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #0f1524;
+    --color-sheet: #172036;
+    --color-ink: #e8ecf5;
+    --color-muted: #a3adc2;
+    --color-rule: #2c3753;
+    --color-action: #3fb3a6;
+    --color-action-ink: #06201d;
+    --color-highlight: #7a6512;
+    --color-danger: #f97066;
+    --color-warn: #f5b64c;
+    --color-card: #1f2a42;
+    --color-card-rule: #2f4466;
+    --color-card-margin: #7a3e4a;
+  }
+}
+
+html { background: var(--color-paper); color: var(--color-ink); }
+body { font-family: var(--font-sans); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+
+:focus-visible { outline: 2px solid var(--color-action); outline-offset: 2px; border-radius: 4px; }
+
+.must-mark {
+  background: linear-gradient(transparent 55%, var(--color-highlight) 55%);
+  padding: 0 2px;
+}
+
+.index-card {
+  background-color: var(--color-card);
+  background-image:
+    linear-gradient(to right, transparent 46px, var(--color-card-margin) 46px, var(--color-card-margin) 47px, transparent 47px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--color-card-rule) 31px, var(--color-card-rule) 32px);
+  background-position: 0 56px;
+  background-repeat: no-repeat, repeat;
+}
+
+.card-flip { transition: transform 280ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .card-flip, .animate-pulse { transition: none; animation: none; }
+}
+
+textarea { field-sizing: content; }
