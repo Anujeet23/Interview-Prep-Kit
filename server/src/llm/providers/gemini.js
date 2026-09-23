@@ -11,17 +11,19 @@ export function geminiProvider({ apiKey, model }) {
       temperature = 0.3,
       json = true,
     }) {
-      const generationConfig = { temperature, maxOutputTokens: maxTokens };
+      const generationConfig = { maxOutputTokens: maxTokens };
       if (json) generationConfig.responseMimeType = "application/json";
-      // 2.5 Flash "thinks" by default and bills thinking against output tokens; we don't need it here.
-      // if (/2\.5-flash/.test(model)) generationConfig.thinkingConfig = { thinkingBudget: 0 };
-      if (/2\.5-flash/.test(model))
-        generationConfig.thinkingConfig = { thinkingBudget: 0 };
-      // Gemini 3.x: thinking is on by default and eats the output-token budget; we only need structured extraction.
-      else if (/gemini-3/.test(model))
+      if (/gemini-3/.test(model)) {
+        // Gemini 3.x: thinking is on by default and counts as output tokens. Send ONLY thinkingLevel
+        // (sending thinkingBudget too is an error). Temperature is ignored by 3.x, so we don't send it.
         generationConfig.thinkingConfig = {
           thinkingLevel: process.env.GEMINI_THINKING_LEVEL || "minimal",
         };
+      } else {
+        generationConfig.temperature = temperature;
+        if (/2\.5-flash/.test(model))
+          generationConfig.thinkingConfig = { thinkingBudget: 0 };
+      }
       const { res, data } = await postJson(
         `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
         {
@@ -39,6 +41,7 @@ export function geminiProvider({ apiKey, model }) {
       if (!res.ok) throw classify(res, data);
       const cand = data.candidates?.[0];
       const text = (cand?.content?.parts || [])
+        .filter((p) => !p.thought)
         .map((p) => p.text || "")
         .join("");
       if (!text)
